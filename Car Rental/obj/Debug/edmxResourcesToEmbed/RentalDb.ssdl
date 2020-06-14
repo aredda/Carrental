@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RentalContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="matricule" />
+    </Key>
+    <Property Name="matricule" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="mark" Type="varchar" MaxLength="128" />
+    <Property Name="mileage" Type="float" />
+    <Property Name="model" Type="int" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="cin" />
+    </Key>
+    <Property Name="cin" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="first_name" Type="varchar" MaxLength="128" />
+    <Property Name="last_name" Type="varchar" MaxLength="128" />
+    <Property Name="telephone" Type="text" />
+    <Property Name="email" Type="text" />
+    <Property Name="adresse" Type="text" />
+  </EntityType>
+  <EntityType Name="Model">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="text" />
+    <Property Name="date" Type="date" />
+  </EntityType>
+  <EntityType Name="Rental">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date_from" Type="date" />
+    <Property Name="date_to" Type="date" />
+    <Property Name="price" Type="money" />
+    <Property Name="client" Type="varchar" MaxLength="16" />
+    <Property Name="car" Type="varchar" MaxLength="128" />
+  </EntityType>
+  <Association Name="FK__Car__model__1273C1CD">
+    <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+    <End Role="Car" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Model">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="model" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rental__car__182C9B23">
+    <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+    <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="matricule" />
+      </Principal>
+      <Dependent Role="Rental">
+        <PropertyRef Name="car" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rental__client__173876EA">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="cin" />
+      </Principal>
+      <Dependent Role="Rental">
+        <PropertyRef Name="client" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RentalContextStoreContainer">
+    <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rental" EntityType="Self.Rental" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Car__model__1273C1CD" Association="Self.FK__Car__model__1273C1CD">
+      <End Role="Model" EntitySet="Model" />
+      <End Role="Car" EntitySet="Car" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rental__car__182C9B23" Association="Self.FK__Rental__car__182C9B23">
+      <End Role="Car" EntitySet="Car" />
+      <End Role="Rental" EntitySet="Rental" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rental__client__173876EA" Association="Self.FK__Rental__client__173876EA">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Rental" EntitySet="Rental" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

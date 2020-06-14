@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RentalContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="matricule" />
+          </Key>
+          <Property Name="matricule" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="mark" Type="varchar" MaxLength="128" />
+          <Property Name="mileage" Type="float" />
+          <Property Name="model" Type="int" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="cin" />
+          </Key>
+          <Property Name="cin" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="128" />
+          <Property Name="last_name" Type="varchar" MaxLength="128" />
+          <Property Name="telephone" Type="text" />
+          <Property Name="email" Type="text" />
+          <Property Name="adresse" Type="text" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date_from" Type="date" />
+          <Property Name="date_to" Type="date" />
+          <Property Name="price" Type="money" />
+          <Property Name="client" Type="varchar" MaxLength="16" />
+          <Property Name="car" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <Association Name="FK__Car__model__1273C1CD">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="model" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rental__car__182C9B23">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="matricule" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rental__client__173876EA">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="cin" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentalContextStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rental" EntityType="Self.Rental" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Car__model__1273C1CD" Association="Self.FK__Car__model__1273C1CD">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rental__car__182C9B23" Association="Self.FK__Rental__car__182C9B23">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rental__client__173876EA" Association="Self.FK__Rental__client__173876EA">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RentalContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="matricule" />
+          </Key>
+          <Property Name="matricule" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mark" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="mileage" Type="Double" />
+          <Property Name="model" Type="Int32" />
+          <NavigationProperty Name="Model1" Relationship="Self.FK__Car__model__1273C1CD" FromRole="Car" ToRole="Model" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK__Rental__car__182C9B23" FromRole="Car" ToRole="Rental" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="cin" />
+          </Key>
+          <Property Name="cin" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="adresse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK__Rental__client__173876EA" FromRole="Client" ToRole="Rental" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK__Car__model__1273C1CD" FromRole="Model" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_from" Type="DateTime" Precision="0" />
+          <Property Name="date_to" Type="DateTime" Precision="0" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="client" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="car" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Car1" Relationship="Self.FK__Rental__car__182C9B23" FromRole="Rental" ToRole="Car" />
+          <NavigationProperty Name="Client1" Relationship="Self.FK__Rental__client__173876EA" FromRole="Rental" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK__Car__model__1273C1CD">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="model" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rental__car__182C9B23">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="matricule" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rental__client__173876EA">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="cin" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Models" EntityType="Self.Model" />
+          <EntitySet Name="Rentals" EntityType="Self.Rental" />
+          <AssociationSet Name="FK__Car__model__1273C1CD" Association="Self.FK__Car__model__1273C1CD">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rental__car__182C9B23" Association="Self.FK__Rental__car__182C9B23">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Rental" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rental__client__173876EA" Association="Self.FK__Rental__client__173876EA">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Rental" EntitySet="Rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RentalContextStoreContainer" CdmEntityContainer="RentalEntities">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="RentalContext.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="matricule" ColumnName="matricule" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="mileage" ColumnName="mileage" />
+                <ScalarProperty Name="model" ColumnName="model" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="RentalContext.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="cin" ColumnName="cin" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Models">
+            <EntityTypeMapping TypeName="RentalContext.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rentals">
+            <EntityTypeMapping TypeName="RentalContext.Rental">
+              <MappingFragment StoreEntitySet="Rental">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date_from" ColumnName="date_from" />
+                <ScalarProperty Name="date_to" ColumnName="date_to" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="client" ColumnName="client" />
+                <ScalarProperty Name="car" ColumnName="car" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

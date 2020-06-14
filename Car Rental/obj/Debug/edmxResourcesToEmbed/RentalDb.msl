@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RentalContextStoreContainer" CdmEntityContainer="RentalEntities">
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="RentalContext.Car">
+        <MappingFragment StoreEntitySet="Car">
+          <ScalarProperty Name="matricule" ColumnName="matricule" />
+          <ScalarProperty Name="mark" ColumnName="mark" />
+          <ScalarProperty Name="mileage" ColumnName="mileage" />
+          <ScalarProperty Name="model" ColumnName="model" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="RentalContext.Client">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="cin" ColumnName="cin" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="adresse" ColumnName="adresse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Models">
+      <EntityTypeMapping TypeName="RentalContext.Model">
+        <MappingFragment StoreEntitySet="Model">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rentals">
+      <EntityTypeMapping TypeName="RentalContext.Rental">
+        <MappingFragment StoreEntitySet="Rental">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date_from" ColumnName="date_from" />
+          <ScalarProperty Name="date_to" ColumnName="date_to" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="client" ColumnName="client" />
+          <ScalarProperty Name="car" ColumnName="car" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
